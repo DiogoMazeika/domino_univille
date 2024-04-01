@@ -1,49 +1,39 @@
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" />
-<link rel="stylesheet" type="text/css" href="base.css" media="screen" />
 <script src="jquery.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="base.css" media="screen" />
 <script src="script.js"></script>
 <!DOCTYPE html>
 <html lang="PT-BR">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dómino</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dominózin dos guri</title>
 </head>
 
 <body>
-  <div class="site-wrapper">
-
-    <div class="site-wrapper-inner">
-
-      <div class="container">
-
-        <div class="masthead clearfix">
-          <div class="container inner">
+    <div class="site-wrapper">
+        <div class="navbar">
             <h3 class="masthead-brand">A decidir 🗿</h3>
-            <nav>
-              <ul class="nav masthead-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Features</a></li>
-                <li><a href="#">Contact</a></li>
-              </ul>
-            </nav>
-          </div>
         </div>
+        <div class="conteudo">
+            <div class="container-opcoes-jogo">
+                <h2>Dominó</h2>
+                <h4 class="my-0">Powered By Bahamas Milk</h4>
+                <span id="dificuldade_txt" class="mt-3 text-small hidden">Escolha a dificuldade</span>
+                <div id="main_btns" class="d-flex align-items-center justify-content-center w-100 h-20">
+                    <div id="start" class="btn btn-lg btn-default">Jogar</div>
+                </div>
+            </div>
 
-        <div class="inner cover">
-          <h1 class="cover-heading">Dómino</h1>
-          <p>Powered By Bahamas Milk</p>
-          <p class="lead" id="main_btns">
-          <div class="btn btn-lg btn-default" id="start">Jogar</div>
-          </p>
+            <div class="container-jogo hidden">
+                <div id="bot-pecas" class="list-pecas d-flex justify-content-center">
+                </div>
+                <div class="tabuleiro">
+                </div>
+                <div id="jogador-pecas" class="list-pecas d-flex justify-content-center"></div>
+            </div>
         </div>
-
-      </div>
-
     </div>
-
-  </div>
 </body>
 
 </html>
