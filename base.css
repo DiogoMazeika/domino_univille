@@ -48,6 +48,10 @@ body {
   text-align: center;
   text-shadow: 0 1px 3px rgba(0, 0, 0, .5);
   user-select: none;
+
+  a {
+    color: #fff;
+  }
 }
 
 .site-wrapper {
@@ -62,6 +66,7 @@ body {
   padding: 0 5px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .conteudo {
@@ -102,10 +107,23 @@ body {
     .peca-container {
       padding: 4px !important;
 
+    }
+  }
+
+  .is-turno#jogador-pecas {
+    .peca-container:hover {
+      /* box-shadow: rgba(0, 0, 0) 0 8px 15px; */
+      transform: translateY(-10px);
+    }
+
+    .peca-container {
       .peca {
-        box-shadow: 0 1px 15px #00562b5c, 0px 1px 15px #00562b5c;
         cursor: pointer;
       }
+
+      /* .peca:hover {
+        box-shadow: 0 1px 15px #00562b5c, 0px 1px 15px #00562b5c;
+      } */
     }
   }
 
@@ -179,6 +197,10 @@ body {
 
 .justify-content-center {
   justify-content: center;
+}
+
+.justify-content-between {
+  justify-content: between;
 }
 
 .justify-content-space-around {

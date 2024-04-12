@@ -29,6 +29,10 @@ const pecas = {
   27: [6, 6],
 };
 
+let pecasInGame = [];
+let jogadorPecas = [];
+let botPecas = [];
+
 $(document).ready(function () {
   oJogo();
 });
@@ -48,9 +52,9 @@ function oJogo() {
 }
 
 function start() {
-  let pecasInGame = Array.from(Array(28).keys());
-  const jogadorPecas = [];
-  const botPecas = [];
+  pecasInGame = Array.from(Array(28).keys());
+  jogadorPecas = [];
+  botPecas = [];
   let jogadorMaior = 0;
   let botMaior = 0;
 
@@ -74,22 +78,35 @@ function start() {
       if (botMaior < p1 + p2) botMaior = p1 + p2;
     }
   }
-  console.debug(pecasInGame);
-  console.debug(botPecas);
-  console.debug(jogadorPecas);
 
   $(".container-opcoes-jogo").addClass("hidden");
   $(".container-jogo").removeClass("hidden");
   addPecasTela("jogador-pecas", jogadorPecas);
   addPecasTela("bot-pecas", botPecas);
 
-  // jogoState(jogadorMaior >= botMaior ? "jogador" : "bot");
+  jogoState(jogadorMaior >= botMaior ? "jogador" : "bot");
 }
 
 async function jogoState(t) {
   let turno = t;
-  while (jogadorPecas.length > 0 || botPecas.length > 0 || pecasInGame > 0) {
+  while (jogadorPecas.length > 0 && botPecas.length > 0 && pecasInGame.length > 0) {
+    $('.list-pecas').removeClass('is-turno');
     $(`#${turno}-pecas`).addClass("is-turno");
+
+    console.debug(pecasInGame);
+    console.debug(botPecas);
+    console.debug(jogadorPecas);
+
+    await new Promise((res) => {
+      $('.peca-container').on('click', function () {
+        const [_, vl] = $(this).attr('id').split('_');
+        jogadorPecas = jogadorPecas.filter((p) => p != vl);
+        console.debug(vl)
+        $(this).remove()
+        res()
+      })
+    })
+    console.debug('foi')
   }
 }
 
