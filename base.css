@@ -20,6 +20,38 @@
   transform: translateY(0);
 }
 
+.btn_fear {
+  font-weight: bold;
+  transition: border-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn_fear:hover {
+  animation: shake 0.1s infinite alternate !important;
+  box-shadow: rgb(251, 0, 0) 0 1px 18px;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateY(0);
+  }
+
+  25% {
+    transform: translateY(-2px);
+  }
+
+  50% {
+    transform: translateY(2px);
+  }
+
+  75% {
+    transform: translateY(-2px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
 /*
  * Base structure
  */
@@ -60,7 +92,7 @@ body {
   background-color: #333;
 }
 
-.navbar {
+.topbar {
   width: 100%;
   height: 10%;
   padding: 0 5px;
@@ -89,9 +121,9 @@ body {
   display: flex;
   flex-direction: column;
 
-  .list-pecas {
-    width: 100%;
+  .container-jogo-row {
     height: 28%;
+    display: flex;
   }
 
   .tabuleiro {

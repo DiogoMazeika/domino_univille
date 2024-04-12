@@ -42,8 +42,8 @@ function oJogo() {
     $("#start").remove();
     $("#dificuldade_txt").removeClass("hidden");
     $("#main_btns").append(
-      ["Fácil", "Díficil"].map((text) => {
-        return $("<div>", { text, class: "btn mx-1" }).on("click", () =>
+      ["Fácil", "Díficil", "Impossível"].map((text, i) => {
+        return $("<div>", { text, class: `btn mx-1 ${i === 2 ? 'btn_fear' : ''}` }).on("click", () =>
           start()
         );
       })
@@ -84,30 +84,44 @@ function start() {
   addPecasTela("jogador-pecas", jogadorPecas);
   addPecasTela("bot-pecas", botPecas);
 
-  jogoState(jogadorMaior >= botMaior ? "jogador" : "bot");
+  jogoState(jogadorMaior >= botMaior ? 0 : 1);
 }
 
 async function jogoState(t) {
   let turno = t;
   while (jogadorPecas.length > 0 && botPecas.length > 0 && pecasInGame.length > 0) {
     $('.list-pecas').removeClass('is-turno');
-    $(`#${turno}-pecas`).addClass("is-turno");
+    $(
+      `#${
+        { 0: 'jogador', 1: 'bot' }[turno]
+      }-pecas`
+    ).addClass("is-turno");
 
+    console.debug(turno);
     console.debug(pecasInGame);
     console.debug(botPecas);
     console.debug(jogadorPecas);
 
-    await new Promise((res) => {
-      $('.peca-container').on('click', function () {
-        const [_, vl] = $(this).attr('id').split('_');
-        jogadorPecas = jogadorPecas.filter((p) => p != vl);
-        console.debug(vl)
-        $(this).remove()
-        res()
+    if (turno === 1) {
+      /* jogadorPecas = jogadorPecas.filter((p) => p != vl);
+      console.debug(vl);
+      $(this).remove();
+      console.debug('aaa', Math.floor(Math.random() * botPecas.length)); */
+    } else {
+      await new Promise((res) => {
+        $('.peca').off('click').on('click', function () {
+          const [_, vl] = $($(this).parent()).attr('id').split('_');
+          jogadorPecas = jogadorPecas.filter((p) => p != vl);
+          console.debug(vl);
+          $(this).remove();
+          res()
+        })
       })
-    })
-    console.debug('foi')
+    }
+
+    turno = !turno * 1; 
   }
+  console.debug('foi')
 }
 
 function addPecasTela(id, listPecas) {
@@ -122,3 +136,7 @@ function addPecasTela(id, listPecas) {
     })
   );
 }
+
+const delay = (ms) => {
+  return new Promise((res) => setTimeout(res, ms));
+};
