@@ -43,9 +43,10 @@ function oJogo() {
     $("#dificuldade_txt").removeClass("hidden");
     $("#main_btns").append(
       ["Fácil", "Díficil", "Impossível"].map((text, i) => {
-        return $("<div>", { text, class: `btn mx-1 ${i === 2 ? 'btn_fear' : ''}` }).on("click", () =>
-          start()
-        );
+        return $("<div>", {
+          text,
+          class: `btn mx-1 ${i === 2 ? "btn_fear" : ""}`,
+        }).on("click", () => start());
       })
     );
   });
@@ -84,18 +85,25 @@ function start() {
   addPecasTela("jogador-pecas", jogadorPecas);
   addPecasTela("bot-pecas", botPecas);
 
+  // $("#img-bot").height($("#img-bot").width());
+  $("#img-bot>img").attr("src", `https://robohash.org/${Date.now()}?bgset=bg2`);
+  $("#img-jogador>img").attr(
+    "src",
+    `https://robohash.org/${Date.now()}?set=set5`
+  );
+
   jogoState(jogadorMaior >= botMaior ? 0 : 1);
 }
 
 async function jogoState(t) {
   let turno = t;
-  while (jogadorPecas.length > 0 && botPecas.length > 0 && pecasInGame.length > 0) {
-    $('.list-pecas').removeClass('is-turno');
-    $(
-      `#${
-        { 0: 'jogador', 1: 'bot' }[turno]
-      }-pecas`
-    ).addClass("is-turno");
+  while (
+    jogadorPecas.length > 0 &&
+    botPecas.length > 0 &&
+    pecasInGame.length > 0
+  ) {
+    $(".list-pecas").removeClass("is-turno");
+    $(`#${{ 0: "jogador", 1: "bot" }[turno]}-pecas`).addClass("is-turno");
 
     console.debug(turno);
     console.debug(pecasInGame);
@@ -103,25 +111,25 @@ async function jogoState(t) {
     console.debug(jogadorPecas);
 
     if (turno === 1) {
-      /* jogadorPecas = jogadorPecas.filter((p) => p != vl);
-      console.debug(vl);
-      $(this).remove();
-      console.debug('aaa', Math.floor(Math.random() * botPecas.length)); */
+      const vl = botPecas[Math.floor(Math.random() * botPecas.length)];
+      botPecas = botPecas.filter((p) => p != vl);
+      $(`.peca-container[id=peca_${vl}]`).remove();
     } else {
       await new Promise((res) => {
-        $('.peca').off('click').on('click', function () {
-          const [_, vl] = $($(this).parent()).attr('id').split('_');
-          jogadorPecas = jogadorPecas.filter((p) => p != vl);
-          console.debug(vl);
-          $(this).remove();
-          res()
-        })
-      })
+        $(".peca")
+          .off("click")
+          .on("click", function () {
+            const [_, vl] = $($(this).parent()).attr("id").split("_");
+            jogadorPecas = jogadorPecas.filter((p) => p != vl);
+            $(this).parent().remove();
+            res();
+          });
+      });
     }
 
-    turno = !turno * 1; 
+    turno = !turno * 1;
   }
-  console.debug('foi')
+  console.debug("foi");
 }
 
 function addPecasTela(id, listPecas) {
