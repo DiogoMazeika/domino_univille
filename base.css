@@ -159,6 +159,38 @@ body {
     }
   }
 
+  .pensando {
+    display: none;
+    position: absolute;
+    top: 45%;
+    right: 10%;
+
+    .jumping {
+      opacity: 0;
+      animation: jump 1.5s infinite !important;
+    }
+
+    .jumping2 {
+      opacity: 0;
+      animation: jump 1.5s infinite !important;
+      animation-delay: .2s !important;
+    }
+
+    .jumping3 {
+      opacity: 0;
+      animation: jump 1.5s infinite !important;
+      animation-delay: .5s !important;
+    }
+  }
+
+  #img-jogador.is-turno,
+  #img-bot.is-turno {
+    .pensando {
+      display: flex;
+
+    }
+  }
+
   .peca-container {
     width: 12%;
     height: 100%;
@@ -209,6 +241,28 @@ body {
       }
     }
   }
+}
+
+
+@keyframes jump {
+  30% {
+    -webkit-transform: translateY(-5px) scale(1.9);
+    transform: translateY(-5px) scale(1.9);
+    opacity: 1;
+    text-shadow: 0 15px 10px black;
+  }
+
+  48% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 0;
+  }
+
 }
 
 /*
@@ -621,4 +675,8 @@ body {
 .pl-5,
 .px-5 {
   padding-left: 3rem !important
+}
+
+.position-relative {
+  position: relative;
 }

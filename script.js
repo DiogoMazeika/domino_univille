@@ -104,16 +104,20 @@ async function jogoState(t) {
   ) {
     $(".list-pecas").removeClass("is-turno");
     $(`#${{ 0: "jogador", 1: "bot" }[turno]}-pecas`).addClass("is-turno");
+    $(`#img-${{ 1: "jogador", 0: "bot" }[turno]}`).removeClass("is-turno");
+    $(`#img-${{ 0: "jogador", 1: "bot" }[turno]}`).addClass("is-turno");
 
-    console.debug(turno);
-    console.debug(pecasInGame);
-    console.debug(botPecas);
-    console.debug(jogadorPecas);
+    // console.debug(turno);
+    // console.debug(pecasInGame);
+    // console.debug(botPecas);
+    // console.debug(jogadorPecas);
 
     if (turno === 1) {
+      await delay((Math.floor(Math.random() * 4) + 1) * 1000);
       const vl = botPecas[Math.floor(Math.random() * botPecas.length)];
       botPecas = botPecas.filter((p) => p != vl);
       $(`.peca-container[id=peca_${vl}]`).remove();
+      console.debug('kqjsbduisad')
     } else {
       await new Promise((res) => {
         $(".peca")
