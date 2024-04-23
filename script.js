@@ -81,6 +81,8 @@ function start() {
     }
   }
 
+  $(".topbar").addClass("hidden");
+  $(".conteudo").addClass("full");
   $(".container-opcoes-jogo").addClass("hidden");
   $(".container-jogo").removeClass("hidden");
   addPecasTela("jogador-pecas", jogadorPecas, "jogador");
@@ -88,13 +90,13 @@ function start() {
 
   // $("#img-bot").height($("#img-bot").width());
   $("#img-bot>img").attr("src", `https://robohash.org/${Date.now()}?bgset=bg2`);
-  /* $("#img-jogador>img").attr(
+  $("#img-jogador>img").attr(
     "src",
-    `https://robohash.org/${Date.now()}?set=set5`
-  ); */
+    `https://robohash.org/${Date.now()}?set=set4`
+  );
 
   // jogoState(jogadorMaior >= botMaior ? 0 : 1);
-  jogoState(1);
+  jogoState(0);
 }
 
 async function jogoState(t) {
@@ -109,6 +111,7 @@ async function jogoState(t) {
     $(`#${{ 0: "jogador", 1: "bot" }[turno]}-pecas`).addClass("is-turno");
     $(`#img-${{ 1: "jogador", 0: "bot" }[turno]}`).removeClass("is-turno");
     $(`#img-${{ 0: "jogador", 1: "bot" }[turno]}`).addClass("is-turno");
+    if (turno === 0) $(".peca.jogador").addClass("is-turno");
 
     console.debug(turno);
     console.debug(pecasInGame);
@@ -116,6 +119,8 @@ async function jogoState(t) {
     console.debug(jogadorPecas);
 
     let peca;
+
+    $(".peca.jogador.is-turno").off("click");
 
     if (turno === 1) {
       await delay((Math.floor(Math.random() * 4) + 1) * 1000);
@@ -125,8 +130,7 @@ async function jogoState(t) {
       peca = vl;
     } else {
       await new Promise((res) => {
-        $(".peca.jogador")
-          .off("click")
+        $(".peca.jogador.is-turno")
           .on("click", function () {
             const [_, vl] = $($(this).parent()).attr("id").split("_");
             jogadorPecas = jogadorPecas.filter((p) => p != vl);

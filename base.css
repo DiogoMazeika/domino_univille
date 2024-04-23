@@ -107,6 +107,10 @@ body {
   display: flex;
 }
 
+.conteudo.full {
+  height: 100%;
+}
+
 .container-opcoes-jogo {
   width: 100%;
   height: 65%;
@@ -129,7 +133,13 @@ body {
   #tabuleiro {
     width: 100%;
     height: 44%;
-    display: flex;
+    padding: 0 10%;
+    /* display: flex; */
+
+    .peca-container {
+      height: 62%;
+      transform: rotate(270deg);
+    }
   }
 
   /*
@@ -162,9 +172,8 @@ body {
 
   .pensando {
     display: none;
-    position: absolute;
+    margin: 5px 0;
     top: 45%;
-    right: 10%;
 
     .jumping {
       opacity: 0;
@@ -243,11 +252,6 @@ body {
     }
   }
 
-  #tabuleiro {
-    .peca-container {
-      background-color: red;
-    }
-  }
 }
 
 
