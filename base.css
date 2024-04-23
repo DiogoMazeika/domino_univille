@@ -126,9 +126,10 @@ body {
     display: flex;
   }
 
-  .tabuleiro {
+  #tabuleiro {
     width: 100%;
     height: 44%;
+    display: flex;
   }
 
   /*
@@ -241,6 +242,12 @@ body {
       }
     }
   }
+
+  #tabuleiro {
+    .peca-container {
+      background-color: red;
+    }
+  }
 }
 
 
@@ -275,6 +282,10 @@ body {
 
 .d-flex {
   display: flex;
+}
+
+.flex-row {
+  flex-direction: column;
 }
 
 .align-items-center {
