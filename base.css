@@ -130,28 +130,77 @@ body {
     display: flex;
   }
 
-  #tabuleiro {
+  #tabuleiro-container {
     width: 100%;
     height: 44%;
     padding: 0 10%;
-    /* display: flex; */
+    overflow: scroll;
 
-    .peca-container {
-      height: 62%;
-      transform: rotate(270deg);
+    #tabuleiro {
+      background: red;
+      width: calc(6% * 54);
+      height: 100%;
+      display: grid;
+      grid-template-columns: repeat(54, 1fr);
+      grid-template-rows: repeat(7, 1fr);
+
+      .tabuleiro-peca-container {
+        width: 100%;
+        height: 100%;
+
+        .peca-container:not(.carroca) {
+          width: 100%;
+          height: 100%;
+          max-width: none;
+          /* transform: rotate(270deg); */
+
+          .peca {
+            display: flex;
+
+            .peca_metade {
+              width: 50%;
+              height: 100%;
+              background-size: 90%;
+            }
+
+            .p1 {
+              border-right: 1px solid #000;
+              border-bottom: unset;
+            }
+
+            .vl_1 {
+              background-image: url("./imagens/1b.png");
+            }
+
+            .vl_2 {
+              background-image: url("./imagens/2b.png");
+            }
+
+            .vl_3 {
+              background-image: url("./imagens/3b.png");
+            }
+
+            .vl_4 {
+              background-image: url("./imagens/4b.png");
+            }
+
+            .vl_5 {
+              background-image: url("./imagens/5b.png");
+            }
+
+            .vl_6 {
+              background-image: url("./imagens/6b.png");
+            }
+          }
+        }
+      }
+
     }
   }
 
   /*
  * Dómino
  */
-
-  .is-turno {
-    .peca-container {
-      padding: 4px !important;
-
-    }
-  }
 
   .is-turno#jogador-pecas {
     .peca-container:hover {
@@ -197,7 +246,6 @@ body {
   #img-bot.is-turno {
     .pensando {
       display: flex;
-
     }
   }
 

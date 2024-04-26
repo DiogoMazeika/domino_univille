@@ -60,7 +60,6 @@ function start() {
   let jogadorMaior = 0;
   let botMaior = 0;
 
-  console.debug(pecasInGame);
   while (jogadorPecas.length < 7) {
     const p = Math.floor(Math.random() * 27);
     if (pecasInGame.includes(p)) {
@@ -96,12 +95,13 @@ function start() {
   );
 
   // jogoState(jogadorMaior >= botMaior ? 0 : 1);
-  jogoState(0);
+  jogoState(1);
 }
 
 async function jogoState(t) {
   let turno = t;
   let pontas = [];
+  const positions = { x1: 1, x2: 4, y1: 3, y2: 5 };
   while (
     jogadorPecas.length > 0 &&
     botPecas.length > 0 &&
@@ -113,10 +113,10 @@ async function jogoState(t) {
     $(`#img-${{ 0: "jogador", 1: "bot" }[turno]}`).addClass("is-turno");
     if (turno === 0) $(".peca.jogador").addClass("is-turno");
 
-    console.debug(turno);
-    console.debug(pecasInGame);
-    console.debug(botPecas);
-    console.debug(jogadorPecas);
+    // console.debug(turno);
+    // console.debug(pecasInGame);
+    // console.debug(botPecas);
+    // console.debug(jogadorPecas);
 
     let peca;
 
@@ -124,25 +124,42 @@ async function jogoState(t) {
 
     if (turno === 1) {
       await delay((Math.floor(Math.random() * 4) + 1) * 1000);
-      const vl = botPecas[Math.floor(Math.random() * botPecas.length)];
+      let vl;
+      if (pontas.length < 1) vl = Math.max(...botPecas);
+      else vl = botPecas[Math.floor(Math.random() * botPecas.length)];
+
       botPecas = botPecas.filter((p) => p != vl);
       $(`.peca-container[id=peca_${vl}]`).remove();
       peca = vl;
     } else {
       await new Promise((res) => {
-        $(".peca.jogador.is-turno")
-          .on("click", function () {
-            const [_, vl] = $($(this).parent()).attr("id").split("_");
-            jogadorPecas = jogadorPecas.filter((p) => p != vl);
-            $(this).parent().remove();
-            peca = vl;
-            res();
-          });
+        $(".peca.jogador.is-turno").on("click", function () {
+          const [_, vl] = $($(this).parent()).attr("id").split("_");
+          const lado = pecas[vl].filter((p) => pontas.includes(p));
+          if (lado.length < 1) {
+            return;
+          }
+          console.debug("passo", pecas[vl]);
+          jogadorPecas = jogadorPecas.filter((p) => p != vl);
+          $(this).parent().remove();
+          peca = vl;
+          res();
+        });
       });
     }
 
+    if (pontas.length < 1) {
+      pontas = pecas[peca];
+    } else {
+    }
+
+    console.debug(peca, pecas[peca], pontas);
+
     tabuleiroPecas.push(peca);
-    addPecasTela("tabuleiro", [peca]);
+    addPecasTabuleiro(peca, positions);
+
+    positions.x1 = positions.x2;
+    positions.x2 = positions.x2 + 3;
 
     turno = !turno * 1;
   }
@@ -159,6 +176,22 @@ function addPecasTela(id, listPecas, extra = "") {
           .append($("<div>", { class: `peca_metade p2 vl_${p2}` }))
       );
     })
+  );
+}
+
+function addPecasTabuleiro(peca, { x1, x2, y1, y2 }) {
+  const [p1, p2] = pecas[peca];
+  $("#tabuleiro").append(
+    $("<div>", {
+      class: "tabuleiro-peca-container",
+      style: `grid-row: ${y1}/${y2}; grid-column: ${x1}/${x2};`,
+    }).append(
+      $("<div>", { id: `peca_${peca}`, class: "peca-container" }).append(
+        $("<div>", { class: "peca" })
+          .append($("<div>", { class: `peca_metade p1 vl_${p1}` }))
+          .append($("<div>", { class: `peca_metade p2 vl_${p2}` }))
+      )
+    )
   );
 }
 
