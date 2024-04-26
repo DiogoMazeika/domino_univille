@@ -34,9 +34,42 @@ let jogadorPecas = [];
 let botPecas = [];
 let tabuleiroPecas = [];
 
+const music = new Audio();
+
 $(document).ready(function () {
   oJogo();
+  musicBtn();
 });
+
+function musicBtn(jogoOn) {
+  $("#musica").off('click').on('click', function() {
+    const status = $(this).attr('status');
+    if (status === 'off') {
+      $(this).attr('status', 'on');
+      $(this).text('🔈');
+      $(this).css('margin-right', '10px');
+      if (jogoOn) musicControl(false, 0, '_lol');
+      else musicControl(false);
+    } else {
+      $(this).attr('status', 'off');
+      $(this).text('🔈X');
+      $(this).css('margin-right', '0');
+      musicControl(true);
+    }
+  });
+}
+
+function musicControl(stop, vl = 0, nm) {
+  if (stop && music != null) {
+    music.pause()
+  } else {
+    music.src = `p${nm ?? vl}.mp3`;
+    music.play();
+    music.onended = () => {
+      musicControl(false, (vl + 1) % 3, nm);
+    };
+  }
+}
 
 function oJogo() {
   $("#start").on("click", () => {
@@ -59,6 +92,12 @@ function start() {
   botPecas = [];
   let jogadorMaior = 0;
   let botMaior = 0;
+
+  if ($("#musica").attr('status') === 'on') {
+    musicControl(true);
+    musicControl(false, 0, '_lol');
+  }
+  musicBtn(true);
 
   while (jogadorPecas.length < 7) {
     const p = Math.floor(Math.random() * 27);

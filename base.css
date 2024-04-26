@@ -743,3 +743,11 @@ body {
 .position-relative {
   position: relative;
 }
+
+.c-pointer {
+  cursor: pointer;
+}
+
+.text-red {
+  color: #f00;
+}
