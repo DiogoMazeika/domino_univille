@@ -53,7 +53,15 @@
           <div id="tabuleiro"></div>
         </div>
         <div class="container-jogo-row">
-          <div class="w-10 h-100"></div>
+          <div class="w-10 h-100 d-flex flex-row align-items-center justify-content-around">
+            <div class="c-pointer" id="store">
+              <div>🛒</div>
+              <div class="text-small">Comprar</div>
+            </div>
+            <div class="c-pointer" id="skip">
+              <div class="text-small">Passar vez</div>
+            </div>
+          </div>
           <div id="jogador-pecas" class="list-pecas w-80 h-100 d-flex justify-content-center"></div>
           <div class="w-10 d-flex flex-row justify-content-end align-items-start position-relative" id="img-jogador">
             <div class="pensando">
