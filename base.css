@@ -253,8 +253,8 @@ body {
   }
 
   .peca-container {
-    min-width: 12%;
-    width: 12%;
+    min-width: 94px;
+    width: 94px;
     height: 100%;
     padding: 5px;
     max-width: 94px;

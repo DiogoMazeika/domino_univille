@@ -254,7 +254,6 @@ $(document).ready(async function () {
         }
       } else {
         const a = async function (res, div) {
-          console.debug(div);
           $('.tabuleiro-placeholder-container').remove();
           const [_, vl] = $($(div).parent()).attr('id').split('_');
           const lados = thisPontas(vl, pontas);
@@ -285,7 +284,8 @@ $(document).ready(async function () {
         $('#store')
           .off('click')
           .on('click', async function () {
-            if ($('#jogador-pecas').hasClass('is-turno') && jogadas < 1) {
+            // if ($('#jogador-pecas').hasClass('is-turno') && jogadas < 1) {
+            if ($('#jogador-pecas').hasClass('is-turno')) {
               const newPeca = await loja('jogador', 'jogador');
               $(newPeca)
                 .find('>div')
@@ -318,7 +318,6 @@ $(document).ready(async function () {
             a(res, $div);
           });
         });
-        console.debug('res');
       }
 
       const ps = position === 'start';
@@ -333,10 +332,10 @@ $(document).ready(async function () {
 
           pontas = [
             ps
-              ? pecas[peca].find((p) => !pontas.includes(p)) ?? pecas[peca][1]
+              ? pecas[peca].find((p) => pontas[0] !== p) ?? pecas[peca][1]
               : pontas[0],
             !ps
-              ? pecas[peca].find((p) => !pontas.includes(p)) ?? pecas[peca][0]
+              ? pecas[peca].find((p) => pontas[1] !== p) ?? pecas[peca][0]
               : pontas[1],
           ];
         }
@@ -353,7 +352,7 @@ $(document).ready(async function () {
           positions[position].x1 = positions[position].x2;
           positions[position].x2 = positions[position].x2 + 3;
         }
-        skippings--;
+        skippings = 0;
       } else {
         skippings++;
       }
@@ -371,7 +370,6 @@ $(document).ready(async function () {
       $('.end-message').text('Derrota! =(');
       $('.end-sub-titulo').text('Ah não! Você perdeu e agora as forças da IA dominarão o mundo...');
     }
-    console.debug('cabo');
   };
 
   const start = (dificuldade) => {
