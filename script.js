@@ -360,12 +360,16 @@ $(document).ready(async function () {
 
       turno = !turno * 1;
     }
+    $('.container-modal').removeClass('hidden');
     if (skippings === 2) {
-      alert('empata');
+      $('.end-message').text('Empate');
+      $('.end-sub-titulo').text('Não foi dessa vez, mas os humanos ainda podem ter uma chance...');
     } else if (jogadorPecas.length < 1) {
-      alert('winner winner chicken dinner');
+      $('.end-message').text('Winner Winner Chicken Dinner!');
+      $('.end-sub-titulo').text('Parabéns! Você é o verdadeiro Dominó!!');
     } else {
-      alert('wasted');
+      $('.end-message').text('Derrota! =(');
+      $('.end-sub-titulo').text('Ah não! Você perdeu e agora as forças da IA dominarão o mundo...');
     }
     console.debug('cabo');
   };

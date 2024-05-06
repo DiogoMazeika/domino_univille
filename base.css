@@ -314,7 +314,6 @@ body {
 
 }
 
-
 @keyframes jump {
   30% {
     -webkit-transform: translateY(-5px) scale(1.9);
@@ -334,6 +333,32 @@ body {
     opacity: 0;
   }
 
+}
+
+
+.container-modal {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  top: 0;
+  padding: 10% 33%;
+  background: #00000045;
+}
+
+.modal {
+  width: 100%;
+  height: 100%;
+  background: #3a3939;
+  border-radius: 9px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.end-message {
+  font-size: 2.6rem;
+  margin-bottom: 30px;
 }
 
 /*
@@ -754,6 +779,10 @@ body {
 
 .position-relative {
   position: relative;
+}
+
+.position-absolute {
+  position: absolute;
 }
 
 .c-pointer {
