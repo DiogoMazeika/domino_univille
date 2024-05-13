@@ -189,7 +189,7 @@ $(document).ready(async function () {
         .filter((p) => thisPontas(p, pontas).length > 0)
         .sort((a, b) => b - a);
       const carroca = jogaveis.find((p) => pecas[p][0] === pecas[p][1]);
-      console.debug(jogaveis, carroca); //.find((p) => pecas[p][0] === pecas[p][1]));
+      // console.debug(jogaveis, pecas[carroca]); //.find((p) => pecas[p][0] === pecas[p][1]));
 
       return [
         carroca ?? jogaveis[0],
@@ -199,6 +199,96 @@ $(document).ready(async function () {
           : 'end',
       ];
     },
+    2: (l, pontas) => {
+      const allPecas = [...pecasInGame, ...jogadorPecas];
+      const jogavel = (peca, pontas) =>
+        pecas[peca].includes(pontas[0]) || pecas[peca].includes(pontas[1]);
+      const jogaveis = l.filter((peca) => jogavel(peca, pontas));
+
+      // Função para contar as possíveis jogadas futuras de uma peça
+      const contarJogadasFuturas = (peca, pontas, allPecas) => {
+        const novasPecas = allPecas.filter(
+          (p) =>
+            pecas[p][0] !== pecas[p][1] ||
+            (pecas[p][0] !== pontas[0] && pecas[p][1] !== pontas[1])
+        );
+        return novasPecas.filter(
+          (novaPeca) =>
+            pecas[novaPeca].includes(peca[0]) ||
+            pecas[novaPeca].includes(peca[1])
+        ).length;
+      };
+
+      // Calcula a quantidade de possíveis jogadas futuras para cada peça jogável
+      const pecasComJogadasFuturas = jogaveis
+        .map((peca) => ({
+          peca,
+          futuras: contarJogadasFuturas(pecas[peca], pontas, allPecas),
+        }))
+        .sort((a, b) => b.futuras - a.futuras);
+
+      // Retorna a melhor peça (primeira da lista ordenada)
+      const jogada = pecasComJogadasFuturas[0]?.peca ?? undefined;
+
+      return [
+        jogada,
+        jogada === undefined,
+        thisPontas(jogada, pontas).includes(pontas[0]) ? 'start' : 'end',
+      ];
+    },
+    /*     2: (l, pontas) => {
+      const allPecas = [...pecasInGame, ...jogadorPecas];
+      const allPontas = {};
+      allPecas.forEach((p) => {
+        const [p1, p2] = pecas[p];
+        allPontas[p1] ??= 0;
+        allPontas[p1]++;
+        allPontas[p2] ??= 0;
+        allPontas[p2]++;
+      });
+      const jogaveis = l
+        .filter((p) => thisPontas(p, pontas).length > 0)
+        .sort((a, b) => b - a);
+
+      console.debug(allPontas);
+      let jogada = jogaveis[0];
+      // let lado = jogaveis[0];
+      Object.keys(allPontas)
+        // .filter((p) => pontas.includes(p * 1))
+        .sort((a, b) => allPontas[b] - allPontas[a])
+        .forEach((ponta) => {
+          const j = jogaveis.find(
+            (p) =>
+              // pecas[p].includes(ponta * 1) &&
+              (pontas.includes(ponta * 1) &&
+                pecas[p][0] === pecas[p][1] &&
+                pecas[p].includes(ponta * 1)) ||
+              (!pontas.includes(ponta * 1) && pecas[p].includes(ponta   * 1))
+            // (pecas[p].includes(pontas[0]) || pecas[p].includes(pontas[1]))
+          );
+          console.debug(
+            ponta,
+            j,
+            pecas[j]
+            // j !== undefined
+            // ? pontas[0] === ponta * 1
+            // ? 'start'
+            // : 'end'
+            // : undefined
+          );
+          jogada = j ?? jogada;
+        });
+
+      const carroca = jogaveis.find((p) => pecas[p][0] === pecas[p][1]);
+
+      return [
+        carroca ?? jogaveis[0],
+        jogaveis.length < 1,
+        thisPontas(carroca ?? jogaveis[0], pontas).includes(pontas[0])
+          ? 'start'
+          : 'end',
+      ];
+    }, */
   };
 
   /* funções para controle do jogo */
@@ -284,8 +374,7 @@ $(document).ready(async function () {
         $('#store')
           .off('click')
           .on('click', async function () {
-            // if ($('#jogador-pecas').hasClass('is-turno') && jogadas < 1) {
-            if ($('#jogador-pecas').hasClass('is-turno')) {
+            if ($('#jogador-pecas').hasClass('is-turno') && jogadas < 1) {
               const newPeca = await loja('jogador', 'jogador');
               $(newPeca)
                 .find('>div')
@@ -362,14 +451,20 @@ $(document).ready(async function () {
     $('.container-modal').removeClass('hidden');
     if (skippings === 2) {
       $('.end-message').text('Empate');
-      $('.end-sub-titulo').text('Não foi dessa vez, mas os humanos ainda podem ter uma chance...');
+      $('.end-sub-titulo').text(
+        'Não foi dessa vez, mas os humanos ainda podem ter uma chance...'
+      );
     } else if (jogadorPecas.length < 1) {
       $('.end-message').text('Winner Winner Chicken Dinner!');
       $('.end-sub-titulo').text('Parabéns! Você é o verdadeiro Dominó!!');
     } else {
       $('.end-message').text('Derrota! =(');
-      $('.end-sub-titulo').text('Ah não! Você perdeu e agora as forças da IA dominarão o mundo...');
+      $('.end-sub-titulo').text(
+        'Ah não! Você perdeu e agora as forças da IA dominarão o mundo...'
+      );
     }
+
+    $('#ok').on('click', () => location.reload());
   };
 
   const start = (dificuldade) => {
@@ -435,10 +530,10 @@ $(document).ready(async function () {
       $('#start').remove();
       $('#dificuldade_txt').removeClass('hidden');
       $('#main_btns').append(
-        ['Fácil', 'Impossível'].map((text, i) => {
+        ['Fácil', 'difícil', 'Impossível'].map((text, i) => {
           return $('<div>', {
             text,
-            class: `btn mx-1 ${i === 1 ? 'btn_fear' : ''}`,
+            class: `btn mx-1 ${i === 2 ? 'btn_fear' : ''}`,
           }).on('click', () => start(i));
         })
       );

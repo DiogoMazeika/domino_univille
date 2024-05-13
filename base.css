@@ -273,34 +273,6 @@ body {
         background-position: center;
         background-size: 100%;
       }
-
-      .p1 {
-        border-bottom: 1px solid #000;
-      }
-
-      .vl_1 {
-        background-image: url("./imagens/1.png");
-      }
-
-      .vl_2 {
-        background-image: url("./imagens/2.png");
-      }
-
-      .vl_3 {
-        background-image: url("./imagens/3.png");
-      }
-
-      .vl_4 {
-        background-image: url("./imagens/4.png");
-      }
-
-      .vl_5 {
-        background-image: url("./imagens/5.png");
-      }
-
-      .vl_6 {
-        background-image: url("./imagens/6.png");
-      }
     }
 
     .peca-placeholder {
@@ -309,6 +281,36 @@ body {
       border-radius: 4px;
       border: dashed 2px #ffff00;
       cursor: pointer;
+    }
+  }
+
+  #jogador-pecas {
+    .p1 {
+      border-bottom: 1px solid #000;
+    }
+
+    .vl_1 {
+      background-image: url("./imagens/1.png");
+    }
+
+    .vl_2 {
+      background-image: url("./imagens/2.png");
+    }
+
+    .vl_3 {
+      background-image: url("./imagens/3.png");
+    }
+
+    .vl_4 {
+      background-image: url("./imagens/4.png");
+    }
+
+    .vl_5 {
+      background-image: url("./imagens/5.png");
+    }
+
+    .vl_6 {
+      background-image: url("./imagens/6.png");
     }
   }
 
